@@ -10,6 +10,7 @@ interface Event {
 
 interface EventCardProps {
   event: Event;
+  onUpdateSeats: (eventId: string, newAvailableSeats: number) => void; // Function to update seats
 }
 
 const BookingModal: React.FC<{
@@ -23,7 +24,7 @@ const BookingModal: React.FC<{
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(name, phone, seats);
+    onSubmit(name, phone, seats); // Pass seats to the submit function
     onClose(); // Close the modal after submission
   };
 
@@ -80,14 +81,36 @@ const BookingModal: React.FC<{
   );
 };
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event, onUpdateSeats }: EventCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleBooking = (name: string, phone: string, seats: number) => {
-    // Logic to handle the booking (e.g., API call)
-    alert(`Booked ${seats} seat(s) for ${event.title} by ${name}.`);
-    // Here you would typically call an API to book the seats
-    // After booking, you could also update the available seats logic
+  const handleBooking = async (name: string, phone: string, seats: number) => {
+    try {
+      const response = await fetch('/api/book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          eventId: event._id,
+          seatsBooked: seats, // Change to seatsBooked
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(`Booked ${seats} seat(s) for ${event.title} by ${name}.`);
+
+        // Update available seats
+        const newAvailableSeats = event.availableSeats - seats;
+        onUpdateSeats(event._id, newAvailableSeats);
+      } else {
+        alert('Failed to book seats. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error booking seats:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (

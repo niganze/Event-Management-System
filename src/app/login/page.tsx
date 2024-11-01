@@ -56,13 +56,13 @@ import React, { useState } from 'react';
 import { UserIcon, LockClosedIcon } from '@heroicons/react/outline'; 
 import '../../../globals.css'
 
-
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e) => { 
+  // Explicitly define the type of e as React.FormEvent<HTMLFormElement>
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
     const res = await fetch('/api/auth/login', {
       method: 'POST',

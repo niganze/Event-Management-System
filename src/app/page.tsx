@@ -1,7 +1,6 @@
 "use client";
-import '../../globals.css'
+import '../../globals.css';
 import Link from 'next/link';
-
 import React, { useEffect, useState } from 'react';
 import EventCard from '../components/EventCard';
 import Navbar from '../components/Navbar';
@@ -12,7 +11,7 @@ interface Event {
   title: string;
   description: string;
   date: string;
-  seatsAvailable: number; // New field for seat availability
+  availableSeats: number; // Ensure this matches the EventCard prop
 }
 
 export default function HomePage() {
@@ -27,16 +26,24 @@ export default function HomePage() {
     fetchEvents();
   }, []);
 
+  // Function to update available seats
+  const onUpdateSeats = (eventId: string, newAvailableSeats: number) => {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) =>
+        event._id === eventId ? { ...event, availableSeats: newAvailableSeats } : event
+      )
+    );
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <div className="p-4 flex-grow">
-        <h1 className="text-3xl font-bold mb-4">Welcome to the Event Management System</h1>
-       
+        <h1 className="text-3xl font-bold mb-2 text-center">Welcome to the Event Management System</h1>
         <h2 className="text-2xl font-semibold mb-2">Available Events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {events.map((event) => (
-            <EventCard key={event._id} event={event} />
+            <EventCard key={event._id} event={event} onUpdateSeats={onUpdateSeats} />
           ))}
         </div>
       </div>

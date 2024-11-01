@@ -1,4 +1,3 @@
-// src/app/events/page.tsx
 "use client"; // Mark this as a client component
 
 import React, { useEffect, useState } from 'react'; // Import useEffect and useState
@@ -23,12 +22,21 @@ export default function Events() {
       .catch(error => console.error('Error fetching events:', error)); // Add error handling
   }, []);
 
+  // Function to handle updating available seats
+  const handleUpdateSeats = (eventId: string, newAvailableSeats: number) => {
+    setEvents(prevEvents =>
+      prevEvents.map(event =>
+        event._id === eventId ? { ...event, availableSeats: newAvailableSeats } : event
+      )
+    );
+  };
+
   return (
     <Layout>
       <h1>Available Events</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {events.map(event => (
-          <EventCard key={event._id} event={event} />
+          <EventCard key={event._id} event={event} onUpdateSeats={handleUpdateSeats} />
         ))}
       </div>
     </Layout>

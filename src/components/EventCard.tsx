@@ -5,7 +5,7 @@ interface Event {
   title: string;
   description: string;
   date: string;
-  availableSeats: number;
+  availableSeats: number; // Ensure this matches the data structure from your API
 }
 
 interface EventCardProps {

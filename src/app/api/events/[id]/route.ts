@@ -1,55 +1,61 @@
+import { NextRequest, NextResponse } from 'next/server';
 import Event from '../../../../models/eventModel';
 import dbConnect from '../../../../lib/mongodb';
 
+interface Params {
+  id: string;
+}
+
 // Connect to the database
-await dbConnect(); // Ensure to await the connection
+await dbConnect();
 
 // Handle GET requests for a single event
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params; // Extract the ID from the params
-
+export async function GET(request: NextRequest, { params }: { params: Params }) {
   try {
-    // Find the event by ID
-    const event = await Event.findById(id);
-    console.log(event);
+    const event = await Event.findById(params.id);
 
     if (!event) {
-      return new Response('Event not found', { status: 404 });
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
     }
 
-    return new Response(JSON.stringify(event), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json(event);
   } catch (error) {
     console.error('Error fetching event:', error);
-    return new Response('Error fetching event', { status: 500 });
+    return NextResponse.json(
+      { error: 'Error fetching event' },
+      { status: 500 }
+    );
   }
 }
 
 // Handle PUT requests for updating a single event
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params; // Extract the ID from the params
+export async function PUT(request: NextRequest, { params }: { params: Params }) {
   try {
-    const { title, description, date, availableSeats } = await req.json();
+    const body = await request.json();
+    const { title, description, date, availableSeats } = body;
 
-    // Update the event by ID
     const updatedEvent = await Event.findByIdAndUpdate(
-      id,
+      params.id,
       { title, description, date, availableSeats },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedEvent) {
-      return new Response('Event not found', { status: 404 });
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
+      );
     }
 
-    return new Response(JSON.stringify(updatedEvent), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json(updatedEvent);
   } catch (error) {
     console.error('Error updating event:', error);
-    return new Response('Error updating event', { status: 500 });
+    return NextResponse.json(
+      { error: 'Error updating event' },
+      { status: 500 }
+    );
   }
 }

@@ -1,16 +1,18 @@
+
+
 "use client";
 
 import { useRouter } from 'next/navigation'; 
 import React, { useState } from 'react'; 
 import { UserIcon, LockClosedIcon } from '@heroicons/react/outline'; 
-import Image from 'next/image'; // Import the Image component
-import '../../../globals.css';
+import '../../../globals.css'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
+  // Explicitly define the type of e as React.FormEvent<HTMLFormElement>
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
     const res = await fetch('/api/auth/login', {
@@ -29,12 +31,10 @@ export default function LoginPage() {
     <div className="flex h-screen bg-black">
       {/* Left side for the illustration */}
       <div className="hidden lg:flex lg:w-1/2 bg-white justify-center items-center">
-        <Image 
+        <img 
           src="https://niganzealain.vercel.app/assets/login-CUyTes9e.png" 
           alt="Login Illustration" 
           className="w-3/4 h-auto" 
-          width={800} // Specify width
-          height={600} // Specify height
         />
       </div>
 

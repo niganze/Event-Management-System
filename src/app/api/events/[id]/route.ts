@@ -1,61 +1,43 @@
-import { NextRequest, NextResponse } from 'next/server';
+// src/app/api/events/[id]/route.ts
 import Event from '../../../../models/eventModel';
 import dbConnect from '../../../../lib/mongodb';
 
-interface Params {
-  id: string;
-}
+dbConnect();
 
-// Connect to the database
-await dbConnect();
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+  const { id } = params; 
 
-// Handle GET requests for a single event
-export async function GET(request: NextRequest, { params }: { params: Params }) {
-  try {
-    const event = await Event.findById(params.id);
-
-    if (!event) {
-      return NextResponse.json(
-        { error: 'Event not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(event);
-  } catch (error) {
-    console.error('Error fetching event:', error);
-    return NextResponse.json(
-      { error: 'Error fetching event' },
-      { status: 500 }
-    );
+  
+  const event = await Event.findById(id);
+  console.log(event);
+  
+  if (!event) {
+    return new Response('Event not found', { status: 404 });
   }
+
+  return new Response(JSON.stringify(event), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
 
-// Handle PUT requests for updating a single event
-export async function PUT(request: NextRequest, { params }: { params: Params }) {
-  try {
-    const body = await request.json();
-    const { title, description, date, availableSeats } = body;
-
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+    const { id } = params; 
+    const { title, description, date, availableSeats } = await req.json();
+  
+    
     const updatedEvent = await Event.findByIdAndUpdate(
-      params.id,
+      id,
       { title, description, date, availableSeats },
-      { new: true }
+      { new: true } 
     );
-
+  
     if (!updatedEvent) {
-      return NextResponse.json(
-        { error: 'Event not found' },
-        { status: 404 }
-      );
+      return new Response('Event not found', { status: 404 });
     }
-
-    return NextResponse.json(updatedEvent);
-  } catch (error) {
-    console.error('Error updating event:', error);
-    return NextResponse.json(
-      { error: 'Error updating event' },
-      { status: 500 }
-    );
+  
+    return new Response(JSON.stringify(updatedEvent), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
-}

@@ -10,16 +10,16 @@ export async function POST(req: Request) {
 
   const { name, email, username, password } = await req.json();
 
-  // Check if the user already exists
+  
   const existingUser = await User.findOne({ email:email });
   if (existingUser) {
-    return NextResponse.json({ message: 'User already exists' }, { status: 409 }); // Conflict
+    return NextResponse.json({ message: 'User already exists' }, { status: 409 }); 
   }
 
-  // Hash the password
+  
   const hashedPassword = bcrypt.hashSync(password, 10);
 
-  // Create a new user
+  
   const newUser = new User({ name, email, username, password: hashedPassword });
   
   await newUser.save();

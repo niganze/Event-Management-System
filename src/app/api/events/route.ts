@@ -2,10 +2,8 @@
 import Event from '../../../models/eventModel';
 import dbConnect from '../../../lib/mongodb';
 
-// Connect to the database
 dbConnect();
 
-// Handle GET requests
 export async function GET() {
   const events = await Event.find();
   console.log(events);
@@ -16,7 +14,6 @@ export async function GET() {
   });
 }
 
-// Handle POST requests
 export async function POST(req: Request) {
   const { title, description, date, availableSeats } = await req.json();
   const event = new Event({ title, description, date, availableSeats });
@@ -27,7 +24,6 @@ export async function POST(req: Request) {
   });
 }
 
-// Handle DELETE requests
 export async function DELETE(req: Request) {
   const { id } = await req.json();
   const deletedEvent = await Event.findByIdAndDelete(id);
@@ -42,14 +38,13 @@ export async function DELETE(req: Request) {
 
 
 
-// Handle PUT requests for updating an event
 export async function PUT(req: Request) {
   const { id, title, description, date, availableSeats } = await req.json();
   
   const updatedEvent = await Event.findByIdAndUpdate(
     id,
     { title, description, date, availableSeats },
-    { new: true } // Return the updated document
+    { new: true } 
   );
 
   if (!updatedEvent) {
@@ -62,7 +57,6 @@ export async function PUT(req: Request) {
   });
 }
 
-// Handle unsupported methods
 export async function OPTIONS() {
   return new Response('Method Not Allowed', { status: 405 });
 }

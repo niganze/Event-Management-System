@@ -12,18 +12,18 @@ export async function POST(req: Request) {
 
   const { username, password } = await req.json();
   
-  // Find the user by username
+  
   const user = await User.findOne({ username });
   
-  // If user not found or password is incorrect
+  
   if (!user || !bcrypt.compareSync(password, user.password)) {
-    return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 }); // Unauthorized
+    return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 }); 
   }
 
-  // Create a token
+  
   const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-  // Set the token in cookies (HttpOnly)
+  
   const res = NextResponse.json({ message: 'Login successful' });
   res.cookies.set('token', token, { httpOnly: true, path: '/' });
 

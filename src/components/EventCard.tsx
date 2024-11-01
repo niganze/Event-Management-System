@@ -5,12 +5,12 @@ interface Event {
   title: string;
   description: string;
   date: string;
-  availableSeats: number; // Ensure this matches the data structure from your API
+  availableSeats: number; 
 }
 
 interface EventCardProps {
   event: Event;
-  onUpdateSeats: (eventId: string, newAvailableSeats: number) => void; // Function to update seats
+  onUpdateSeats: (eventId: string, newAvailableSeats: number) => void; 
 }
 
 const BookingModal: React.FC<{
@@ -24,11 +24,11 @@ const BookingModal: React.FC<{
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(name, phone, seats); // Pass seats to the submit function
-    onClose(); // Close the modal after submission
+    onSubmit(name, phone, seats); 
+    onClose(); 
   };
 
-  if (!isOpen) return null; // Do not render the modal if not open
+  if (!isOpen) return null; 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -62,7 +62,7 @@ const BookingModal: React.FC<{
               value={seats}
               onChange={(e) => setSeats(Number(e.target.value))}
               min="1"
-              max={10} // Adjust the max based on your business logic
+              max={10} 
               required
               className="border border-gray-300 rounded-lg p-2 w-full"
             />
@@ -93,7 +93,7 @@ export default function EventCard({ event, onUpdateSeats }: EventCardProps) {
         },
         body: JSON.stringify({
           eventId: event._id,
-          seatsBooked: seats, // Change to seatsBooked
+          seatsBooked: seats, 
         }),
       });
 
@@ -122,7 +122,7 @@ export default function EventCard({ event, onUpdateSeats }: EventCardProps) {
       <button 
         onClick={() => setIsModalOpen(true)}
         className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        disabled={event.availableSeats === 0} // Disable button if no seats are available
+        disabled={event.availableSeats === 0} 
       >
         {event.availableSeats > 0 ? 'Book Now' : 'Sold Out'}
       </button>

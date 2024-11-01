@@ -26,7 +26,7 @@ export default function HomePage() {
     fetchEvents();
   }, []);
 
-  // Function to update available seats
+ 
   const onUpdateSeats = (eventId: string, newAvailableSeats: number) => {
     setEvents((prevEvents) =>
       prevEvents.map((event) =>

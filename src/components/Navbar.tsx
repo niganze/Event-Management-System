@@ -12,10 +12,10 @@ export default function Navbar() {
       setCurrentTime(timeString);
     };
 
-    const timerId = setInterval(updateTime, 1000); // Update time every second
-    updateTime(); // Initial call to set time immediately
+    const timerId = setInterval(updateTime, 1000); 
+    updateTime(); 
 
-    return () => clearInterval(timerId); // Cleanup on unmount
+    return () => clearInterval(timerId); 
   }, []);
 
   return (

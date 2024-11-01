@@ -1,4 +1,3 @@
-// src/app/api/events/[id]/route.ts
 import Event from '../../../../models/eventModel';
 import dbConnect from '../../../../lib/mongodb';
 

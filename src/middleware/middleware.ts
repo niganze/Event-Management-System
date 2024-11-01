@@ -1,4 +1,3 @@
-// src/middleware.ts
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
@@ -15,7 +14,7 @@ export function middleware(req: NextRequest) {
 
     try {
       jwt.verify(token, JWT_SECRET);
-    } catch (error) {
+    } catch {
       return NextResponse.redirect(new URL('/login', req.url));
     }
   }

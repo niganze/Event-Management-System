@@ -1,67 +1,16 @@
-
-// "use client"; 
-
-// import { useRouter } from 'next/navigation'; 
-// import React, { useState } from 'react'; 
-
-// export default function LoginPage() {
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const router = useRouter();
-
-//   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => { 
-//     e.preventDefault();
-//     const res = await fetch('/api/auth/login', {
-//       method: 'POST',
-//       headers: { 'Content-Type': 'application/json' },
-//       body: JSON.stringify({ username, password }),
-//     });
-//     if (res.ok) {
-//       router.push('/admin');
-//     } else {
-//       alert('Invalid credentials');
-//     }
-//   };
-
-//   return (
-//     <div className="p-4">
-//       <h1 className="text-3xl font-bold mb-4">Admin Login</h1>
-//       <form onSubmit={handleLogin} className="flex flex-col gap-2">
-//         <input
-//           type="text"
-//           placeholder="Username"
-//           value={username}
-//           onChange={(e) => setUsername(e.target.value)}
-//           required
-//           className="border p-2"
-//         />
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//           required
-//           className="border p-2"
-//         />
-//         <button type="submit" className="bg-blue-500 text-white px-4 py-2">Login</button>
-//       </form>
-//     </div>
-//   );
-// }
-
 "use client";
 
 import { useRouter } from 'next/navigation'; 
 import React, { useState } from 'react'; 
 import { UserIcon, LockClosedIcon } from '@heroicons/react/outline'; 
-import '../../../globals.css'
+import Image from 'next/image'; // Import the Image component
+import '../../../globals.css';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  // Explicitly define the type of e as React.FormEvent<HTMLFormElement>
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
     const res = await fetch('/api/auth/login', {
@@ -80,10 +29,12 @@ export default function LoginPage() {
     <div className="flex h-screen bg-black">
       {/* Left side for the illustration */}
       <div className="hidden lg:flex lg:w-1/2 bg-white justify-center items-center">
-        <img 
+        <Image 
           src="https://niganzealain.vercel.app/assets/login-CUyTes9e.png" 
           alt="Login Illustration" 
           className="w-3/4 h-auto" 
+          width={800} // Specify width
+          height={600} // Specify height
         />
       </div>
 

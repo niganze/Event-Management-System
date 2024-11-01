@@ -98,7 +98,7 @@ export default function EventCard({ event, onUpdateSeats }: EventCardProps) {
       });
 
       if (response.ok) {
-        const data = await response.json();
+         await response.json();
         alert(`Booked ${seats} seat(s) for ${event.title} by ${name}.`);
 
         // Update available seats

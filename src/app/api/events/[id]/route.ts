@@ -2,10 +2,12 @@
 import Event from '../../../../models/eventModel';
 import dbConnect from '../../../../lib/mongodb';
 
+type Params = Promise<{ id: string }>
+
 dbConnect();
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const { id } = params; 
+export async function GET(req: Request, { params }: { params: Params}) {
+  const { id } = await params;
 
   
   const event = await Event.findById(id);
@@ -21,8 +23,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   });
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-    const { id } = params; 
+export async function PUT(req: Request, { params }: { params: Params}) {
+    const { id } = await params; 
     const { title, description, date, availableSeats } = await req.json();
   
     

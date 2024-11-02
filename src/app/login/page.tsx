@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'; 
 import { UserIcon, LockClosedIcon } from '@heroicons/react/outline'; 
 import '../../../globals.css'
+import Image from 'next/image';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -31,8 +32,10 @@ export default function LoginPage() {
     <div className="flex h-screen bg-black">
       {/* Left side for the illustration */}
       <div className="hidden lg:flex lg:w-1/2 bg-white justify-center items-center">
-        <img 
-          src="https://niganzealain.vercel.app/assets/login-CUyTes9e.png" 
+        <Image 
+          src="https://niganzealain.vercel.app/assets/login-CUyTes9e.png"
+          width= { 300 }
+          height = { 200 }
           alt="Login Illustration" 
           className="w-3/4 h-auto" 
         />

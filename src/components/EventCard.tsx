@@ -114,24 +114,27 @@ export default function EventCard({ event, onUpdateSeats }: EventCardProps) {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg p-4 shadow-lg">
-      <h3 className="text-xl font-semibold">{event.title}</h3>
-      <p className="text-gray-600">{event.description}</p>
-      <p className="font-medium text-lg mt-2">Date: {event.date}</p>
-      <p className="text-red-600 font-semibold">Seats Available: {event.availableSeats}</p>
-      <button 
-        onClick={() => setIsModalOpen(true)}
-        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        disabled={event.availableSeats === 0} 
-      >
-        {event.availableSeats > 0 ? 'Book Now' : 'Sold Out'}
-      </button>
+    <div className="border border-gray-300 rounded-lg p-6 shadow-lg bg-white transition transform hover:scale-105">
+  <h3 className="text-2xl font-bold text-gray-800 mb-2">{event.title}</h3>
+  <p className="text-gray-600 mb-4">{event.description}</p>
+  <p className="font-medium text-lg text-gray-700">Date: <span className="font-semibold">{event.date}</span></p>
+  <p className="text-red-600 font-semibold mt-1">Seats Available: <span className="text-black">{event.availableSeats}</span></p>
+  
+  <button 
+    onClick={() => setIsModalOpen(true)}
+    className={`mt-4 py-2 px-4 rounded transition duration-200 
+      ${event.availableSeats > 0 ? 'bg-gray-800 text-white hover:bg-gray-900' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`} 
+    disabled={event.availableSeats === 0}
+  >
+    {event.availableSeats > 0 ? 'Book Now' : 'Sold Out'}
+  </button>
 
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleBooking}
-      />
-    </div>
+  <BookingModal
+    isOpen={isModalOpen}
+    onClose={() => setIsModalOpen(false)}
+    onSubmit={handleBooking}
+  />
+</div>
+
   );
 }

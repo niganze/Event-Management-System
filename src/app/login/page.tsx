@@ -33,7 +33,7 @@ export default function LoginPage() {
       {/* Left side for the illustration */}
       <div className="hidden lg:flex lg:w-1/2 bg-white justify-center items-center">
         <Image 
-          src="https://niganzealain.vercel.app/assets/login-CUyTes9e.png"
+          src="/assets/login.png"
           width= { 300 }
           height = { 200 }
           alt="Login Illustration" 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import AdminLayout from "../../components/AdminLayout";
 import "../../../globals.css";
 
@@ -134,7 +135,7 @@ const Admin = () => {
 
         <button
           onClick={openModal}
-          className="bg-blue-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-500 mb-6 transition duration-150"
+          className="bg-gray-600 text-white font-semibold py-2 px-4 rounded shadow hover:bg-blue-500 mb-6 transition duration-150"
         >
           Create Event
         </button>
@@ -155,17 +156,19 @@ const Admin = () => {
               {events.map((event) => (
                 <tr key={event._id} className="border-t border-gray-200">
                   <td className="py-3 px-6">{event.title}</td>
-                  <td className="py-3 px-6">{event.description}</td>
+                  <td className="py-3 px-6">
+  {event.description.length > 100 ? `${event.description.slice(0, 100)}...` : event.description}
+</td>
                   <td className="py-3 px-6">{event.date}</td>
                   <td className="py-3 px-6">{event.availableSeats}</td>
                   <td className="py-3 px-6 text-center">
-                    <button onClick={() => openEditModal(event)} className="text-blue-600 hover:underline mr-4">
-                      Edit
-                    </button>
-                    <button onClick={() => handleDeleteEvent(event._id)} className="text-red-600 hover:underline">
-                      Delete
-                    </button>
-                  </td>
+  <button onClick={() => openEditModal(event)} className="text-blue-600 hover:underline mr-4">
+    <FaEdit className="inline-block" /> {/* Edit Icon */}
+  </button>
+  <button onClick={() => handleDeleteEvent(event._id)} className="text-red-600 hover:underline">
+    <FaTrash className="inline-block" /> {/* Delete Icon */}
+  </button>
+</td>
                 </tr>
               ))}
             </tbody>
